@@ -132,3 +132,12 @@ env -u SLURM_JOB_ID \
 /home/ypan/.conda/envs/bindcraft2/bin/python \
   /home/ypan/BindCraft2/BindCraft2_deploy/lab/scripts/gpu_probe.py
 
+####
+
+sinfo -p gpu -N -o "%N %T %G %C"
+
+####
+
+squeue -p gpu -o "%.12i %.16j %.10u %.2t %.10M %R"
+
+####
