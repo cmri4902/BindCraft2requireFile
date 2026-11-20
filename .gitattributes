@@ -1,0 +1,49 @@
+# Xu Lab addition (no upstream file is modified by this).
+#
+# This repository is developed on Windows and executed on Linux (SLURM/H200).
+# Without these rules a Windows checkout with core.autocrlf=true writes CRLF
+# into the working tree, and rsync of that tree ships CRLF shell scripts to the
+# HPC, where `#!/bin/bash\r` fails with "bad interpreter". Git object contents
+# are LF either way, so declaring eol=lf changes no blob: it only fixes what is
+# written to disk and what `git archive` exports.
+
+# Everything stored as text is checked out with LF, on every platform.
+* text=auto eol=lf
+
+# Scripts executed on Linux: LF is mandatory, never guessed.
+*.sh        text eol=lf
+*.slurm     text eol=lf
+*.bash      text eol=lf
+
+# Source, config and data read on Linux.
+*.py        text eol=lf
+*.ipynb     text eol=lf
+*.json      text eol=lf
+*.md        text eol=lf
+*.rst       text eol=lf
+*.txt       text eol=lf
+*.toml      text eol=lf
+*.cfg       text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.cif       text eol=lf
+*.pdb       text eol=lf
+*.fasta     text eol=lf
+Dockerfile  text eol=lf
+LICENSE     text eol=lf
+
+# Upstream committed docs/make.bat with CRLF (it is a Windows batch file). It is
+# excluded from end-of-line conversion entirely, so it stays byte-identical to
+# upstream instead of being renormalized to LF.
+*.bat       -text
+
+# Never touched by end-of-line conversion.
+*.npz       binary
+*.png       binary
+*.jpg       binary
+*.gz        binary
+*.tar       binary
+*.zip       binary
+*.sif       binary
+*.ico       binary
+*.pdf       binary
