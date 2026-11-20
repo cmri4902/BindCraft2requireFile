@@ -21,3 +21,13 @@ conda activate bindcraft2
 
 bash lab/scripts/hpc_preflight.sh
 
+#### check step 4 
+
+ls -lh /home/ypan/.cache/bindcraft/alphafold/
+
+find /home/ypan/.cache/bindcraft/alphafold \
+  -name 'params_*.npz' -printf '%f %s bytes\n'
+
+### if previous code can't find it 
+find /home/ypan /project/yli4/ypan \
+  -name 'params_model_1_multimer_v3.npz' 2>/dev/null
