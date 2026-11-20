@@ -14,6 +14,10 @@ cd BindCraft2_deploy
 # Verify the latest commit
 git log -1 --oneline
 
+### update git without clone the whole thing again 
+cd /home/ypan/BindCraft2/BindCraft2_deploy
+git pull --ff-only
+git log -1 --oneline
 
 ####
 
