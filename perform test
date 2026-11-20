@@ -37,7 +37,7 @@ sbatch \
   lab/configs/pdl1_smoke.json
 
 ####
-JOB_ID=1014430
+JOB_ID=1014436
 
 tail -n 100 /project/yli4/ypan/bindcraft/logs/xulab_bc2_${JOB_ID}.out
 
