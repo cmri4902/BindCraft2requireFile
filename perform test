@@ -188,4 +188,26 @@ python -m ipykernel install --user \
   --name bindcraft2 \
   --display-name "Python (bindcraft2)"
 
+####
+
+conda activate bindcraft2
+
+# Confirm the interpreter
+which python
+
+# Register the kernel using the correct interpreter
+/home/ypan/.conda/envs/bindcraft2/bin/python -m ipykernel install \
+  --user \
+  --name bindcraft2 \
+  --display-name "Python (bindcraft2)"
+
+cat ~/.local/share/jupyter/kernels/bindcraft2/kernel.json
+
+import sys
+import py3Dmol
+
+print("Python:", sys.executable)
+print("py3Dmol:", py3Dmol.__version__)
+
+
 
