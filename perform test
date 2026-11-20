@@ -16,14 +16,30 @@ git log -1 --oneline
 
 ### update git without clone the whole thing again 
 cd /home/ypan/BindCraft2/BindCraft2_deploy
-git pull --ff-only
+
+git status --short
+git pull --ff-only origin main
+
 git log -1 --oneline
 
-####
+### preflight 
 
 conda activate bindcraft2
 
 bash lab/scripts/hpc_preflight.sh
+
+####
+export BINDCRAFT_AF2_PARAMS=/home/ypan/.cache/bindcraft/alphafold
+
+sbatch \
+  --export=ALL,BINDCRAFT_AF2_PARAMS="$BINDCRAFT_AF2_PARAMS" \
+  lab/slurm/run_bindcraft_h200.slurm \
+  lab/configs/pdl1_smoke.json
+
+####
+JOB_ID=1014430
+
+tail -n 100 /project/yli4/ypan/bindcraft/logs/xulab_bc2_${JOB_ID}.out
 
 #### check step 4 
 
