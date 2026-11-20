@@ -64,3 +64,13 @@ cat /project/yli4/ypan/bindcraft/logs/xulab_bc2_1014436.err
 
 find /home/ypan /project/yli4/ypan \
   -name 'params_model_1_multimer_v3.npz' 2>/dev/null
+
+####
+salloc --partition=gpu --gres=gpu:h200:1 \
+  -c 8 --mem=16G --time=00:20:00
+
+cd /home/ypan/BindCraft2/BindCraft2_deploy
+
+srun --ntasks=1 bash lab/scripts/gpu_diagnostics.sh
+
+
