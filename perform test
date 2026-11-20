@@ -89,4 +89,23 @@ cd /home/ypan/BindCraft2/BindCraft2_deploy
 
 ####
 
+echo "SLURM_JOB_ID=$SLURM_JOB_ID"
+echo "SLURM_STEP_ID=$SLURM_STEP_ID"
+echo "SLURM_JOB_GPUS=$SLURM_JOB_GPUS"
+echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
+hostname
+
+
+####
+
+srun --gres=gpu:h200:1 -p gpu \
+  --time=00:20:00 \
+  --pty /bin/bash
+
+####
+
+cd /home/ypan/BindCraft2/BindCraft2_deploy
+
+/home/ypan/.conda/envs/bindcraft2/bin/python \
+  lab/scripts/gpu_probe.py
 
