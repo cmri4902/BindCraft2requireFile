@@ -49,5 +49,18 @@ find /home/ypan/.cache/bindcraft/alphafold \
   -name 'params_*.npz' -printf '%f %s bytes\n'
 
 ### if previous code can't find it 
+
+
+####
+
+grep -n -E \
+'gpu:|diag:|nvidia-uvm|Permission denied|CUDA_ERROR|cuInit|verdict|srun-step|cgroup|device' \
+/project/yli4/ypan/bindcraft/logs/xulab_bc2_1014436.out
+
+####
+
+cat /project/yli4/ypan/bindcraft/logs/xulab_bc2_1014436.err
+
+
 find /home/ypan /project/yli4/ypan \
   -name 'params_model_1_multimer_v3.npz' 2>/dev/null
