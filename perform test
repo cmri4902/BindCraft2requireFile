@@ -171,3 +171,11 @@ env -u SLURM_JOB_ID \
 
 
 ####
+
+salloc --partition=gpu --gres=gpu:h200:1 \
+  -c 8 --mem=16G --time=00:20:00
+
+srun --ntasks=1 bash lab/scripts/gpu_diagnostics.sh
+
+srun: error: Unable to create step for job 1014438:
+Invalid generic resource (gres) specification
