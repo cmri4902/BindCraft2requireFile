@@ -1,0 +1,40 @@
+
+library(shiny)
+library(r3dmol)
+
+ui <- fluidPage(
+  titlePanel("BindCraft2 Structure Viewer"),
+  fileInput(
+    "structure",
+    "Upload predicted complex",
+    accept = c(".cif", ".pdb")
+  ),
+  r3dmolOutput("structure_view", height = "600px")
+)
+
+server <- function(input, output, session) {
+  output$structure_view <- renderR3dmol({
+    req(input$structure)
+
+    format <- tolower(
+      tools::file_ext(input$structure$name)
+    )
+    validate(
+      need(format %in% c("cif", "pdb"),
+           "Please upload a CIF or PDB file")
+    )
+
+    viewer <- r3dmol()
+    viewer <- m_add_model(
+      viewer,
+      data = input$structure$datapath,
+      format = format
+    )
+    viewer <- m_set_style(
+      viewer, style = m_style_cartoon()
+    )
+    m_zoom_to(viewer)
+  })
+}
+
+shinyApp(ui, server)
