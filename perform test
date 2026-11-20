@@ -1,14 +1,23 @@
-# Create the project directories
+# Create directories
+mkdir -p /home/ypan/BindCraft2
 mkdir -p /project/yli4/ypan/bindcraft/{results,logs,cache/jax,tmp}
 
-# Go to the project directory
-cd /project/yli4/ypan/bindcraft
+# Navigate to the source directory
+cd /home/ypan/BindCraft2
 
-# Clone our private Xu Lab repository
-git clone https://github.com/cmri4902/XuLab-BinderDesign.git BindCraft2
+# Clone the private GitHub repository
+git clone https://github.com/cmri4902/XuLab-BinderDesign.git BindCraft2_deploy
 
-# Enter the repository
-cd BindCraft2
+# Enter deployment directory
+cd BindCraft2_deploy
 
-# Confirm the downloaded version
+# Verify the latest commit
 git log -1 --oneline
+
+
+####
+
+conda activate bindcraft2
+
+bash lab/scripts/hpc_preflight.sh
+
