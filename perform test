@@ -73,4 +73,20 @@ cd /home/ypan/BindCraft2/BindCraft2_deploy
 
 srun --ntasks=1 bash lab/scripts/gpu_diagnostics.sh
 
+####
+
+srun --gres=gpu:h200:1 -p gpu \
+  -c 8 --mem=16G --time=00:20:00 \
+  --pty /bin/bash
+
+
+####
+
+cd /home/ypan/BindCraft2/BindCraft2_deploy
+
+/home/ypan/.conda/envs/bindcraft2/bin/python \
+  lab/scripts/gpu_probe.py
+
+####
+
 
