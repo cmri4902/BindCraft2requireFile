@@ -1,1 +1,11 @@
-https://cmri-vm-rstudio.cmh.internal/s/8a287cfc78a31e65b22f7/p/3849d99d/
+# Submit the BindCraft2 campaign
+sbatch bindcraft.slurm design.json
+
+# Check job status
+squeue -j 123456
+
+# Read completed job accounting
+sacct -j 123456 --format=JobID,State,ExitCode
+
+# Cancel a job
+scancel 123456
