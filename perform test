@@ -179,3 +179,13 @@ srun --ntasks=1 bash lab/scripts/gpu_diagnostics.sh
 
 srun: error: Unable to create step for job 1014438:
 Invalid generic resource (gres) specification
+
+####
+
+python -m pip install ipykernel ipywidgets
+
+python -m ipykernel install --user \
+  --name bindcraft2 \
+  --display-name "Python (bindcraft2)"
+
+
