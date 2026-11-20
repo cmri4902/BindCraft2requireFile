@@ -1,0 +1,14 @@
+# Create the project directories
+mkdir -p /project/yli4/ypan/bindcraft/{results,logs,cache/jax,tmp}
+
+# Go to the project directory
+cd /project/yli4/ypan/bindcraft
+
+# Clone our private Xu Lab repository
+git clone https://github.com/cmri4902/XuLab-BinderDesign.git BindCraft2
+
+# Enter the repository
+cd BindCraft2
+
+# Confirm the downloaded version
+git log -1 --oneline
