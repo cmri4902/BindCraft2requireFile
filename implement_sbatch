@@ -2,8 +2,9 @@
 
 cd /home/ypan/BindCraft2/BindCraft2_deploy
 
-git status --short
-git pull --ff-only origin main
+git fetch origin main
+git reset --hard origin/main
+
 git log -1 --oneline
 
 ###
