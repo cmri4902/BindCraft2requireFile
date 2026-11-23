@@ -54,5 +54,52 @@ cat /project/yli4/ypan/bindcraft/logs/jax_h200_${JOB_ID}.out
 
 cat /project/yli4/ypan/bindcraft/logs/jax_h200_${JOB_ID}.err
 
+## save previos rsult 
+
+#### Step 1 — Back up the successful PD-L1 results
+
+BASE=/project/yli4/ypan/bindcraft
+BACKUP=/project/yli4/ypan/bindcraft_backups/pdl1_$(date +%Y%m%d_%H%M%S)
+
+mkdir -p "$BACKUP"
+
+# Save the complete original campaign
+cp -a "$BASE/results/pdl1_h200_smoke" \
+  "$BACKUP/campaign_results"
+
+# Save exported FASTA, CSV, CIF, and other files
+if [ -d "$BASE/results/exports/pdl1_h200_smoke" ]; then
+    cp -a "$BASE/results/exports/pdl1_h200_smoke" \
+      "$BACKUP/exported_files"
+fi
+
+# Save the exported ZIP
+if [ -f "$BASE/results/exports/pdl1_h200_smoke_export.zip" ]; then
+    cp -a "$BASE/results/exports/pdl1_h200_smoke_export.zip" \
+      "$BACKUP/"
+fi
+
+# Save the successful H200 job logs
+for ext in out err; do
+    FILE="$BASE/logs/xulab_bc2_1015052.$ext"
+    if [ -f "$FILE" ]; then
+        cp -a "$FILE" "$BACKUP/"
+    fi
+done
+
+# Record the deployment revision
+git -C /home/ypan/BindCraft2/BindCraft2_deploy rev-parse HEAD \
+  > "$BACKUP/source_commit.txt"
+
+echo "Backup location: $BACKUP"
+du -sh "$BACKUP"
+
+#### Step2 Verify the backup
+
+ls -lh "$BACKUP"
+ls -lh "$BACKUP/campaign_results"
+
+
+
 
 
