@@ -100,6 +100,12 @@ ls -lh "$BACKUP"
 ls -lh "$BACKUP/campaign_results"
 
 
+####
+
+diff -qr \
+  /project/yli4/ypan/bindcraft/results/pdl1_h200_smoke \
+  "$BACKUP/campaign_results"
+
 
 
 
