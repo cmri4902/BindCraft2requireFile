@@ -46,7 +46,7 @@ sbatch --export=NONE test_jax_h200.slurm
 
 ### check result 
 
-JOB_ID=123456
+JOB_ID=1015050
 
 sacct -j "$JOB_ID" --format=JobID,JobName,State,ExitCode,Elapsed
 
