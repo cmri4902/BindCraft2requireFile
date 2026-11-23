@@ -1,0 +1,16 @@
+#### upload github
+
+cd /home/ypan/BindCraft2/BindCraft2_deploy
+
+git status --short
+git pull --ff-only origin main
+git log -1 --oneline
+
+###
+
+cd /home/ypan/BindCraft2/BindCraft2_deploy
+
+mkdir -p /project/yli4/ypan/bindcraft/{results,logs,cache,tmp}
+
+sbatch lab/slurm/run_bindcraft_h200.slurm \
+  lab/configs/pdl1_campaign.json
