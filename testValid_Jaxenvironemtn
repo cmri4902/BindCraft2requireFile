@@ -1,0 +1,56 @@
+cd /home/ypan/BindCraft2/BindCraft2_deploy
+
+cat > test_jax_h200.slurm <<'EOF'
+#!/bin/bash
+#SBATCH --job-name=jax-h200-test
+#SBATCH --partition=gpu
+#SBATCH --nodelist=cmri-gpu05
+#SBATCH --gres=gpu:h200:1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=16G
+#SBATCH --time=00:10:00
+#SBATCH --output=/project/yli4/ypan/bindcraft/logs/jax_h200_%j.out
+#SBATCH --error=/project/yli4/ypan/bindcraft/logs/jax_h200_%j.err
+
+set -euo pipefail
+
+echo "HOST: $(hostname)"
+echo "JOB_ID: $SLURM_JOB_ID"
+echo "CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-unset}"
+echo "SLURM_JOB_GPUS: ${SLURM_JOB_GPUS:-unset}"
+
+nvidia-smi
+
+/home/ypan/.conda/envs/bindcraft2/bin/python - <<'PY'
+import jax
+import jax.numpy as jnp
+
+print("JAX version:", jax.__version__, flush=True)
+print("JAX backend:", jax.default_backend(), flush=True)
+print("JAX devices:", jax.devices(), flush=True)
+
+assert jax.default_backend() == "gpu", "JAX did not initialize GPU"
+
+x = jnp.ones((1024, 1024))
+y = jnp.dot(x, x)
+y.block_until_ready()
+
+print("GPU computation: PASS", flush=True)
+PY
+EOF
+
+## submit through sbatch 
+mkdir -p /project/yli4/ypan/bindcraft/logs
+
+sbatch --export=NONE test_jax_h200.slurm
+
+### check result 
+
+JOB_ID=123456
+
+sacct -j "$JOB_ID" --format=JobID,JobName,State,ExitCode,Elapsed
+
+cat /project/yli4/ypan/bindcraft/logs/jax_h200_${JOB_ID}.out
+
+cat /project/yli4/ypan/bindcraft/logs/jax_h200_${JOB_ID}.err
+
