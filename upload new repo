@@ -69,3 +69,10 @@ print("Deployment:", os.environ["XULAB_DEPLOYMENT"])
 print("Source:", DEV)
 print("Results:", os.environ["XULAB_RESULTS"])
 
+####
+
+cd /home/ypan/BindCraft2/BindCraft2_cd19_dev
+
+git status --short
+git remote -v
+git pull --ff-only origin main
