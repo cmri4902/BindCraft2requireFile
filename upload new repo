@@ -1,0 +1,71 @@
+ls -ld \
+  /home/ypan/BindCraft2/BindCraft2_deploy \
+  /project/yli4/ypan/bindcraft/results/pdl1_h200_smoke \
+  /project/yli4/ypan/bindcraft_backups/pdl1_20261123_172646
+
+mkdir -p /home/ypan/BindCraft2
+
+mkdir -p /project/yli4/ypan/bindcraft_cd19_dev/{results,logs,cache/jax,tmp,targets}
+
+git clone --branch main \
+  https://github.com/cmri4902/XuLab-BinderDesign.git \
+  /home/ypan/BindCraft2/BindCraft2_cd19_dev
+
+####
+cd /home/ypan/BindCraft2/BindCraft2_cd19_dev
+
+source lab/scripts/dev_env.sh
+
+
+####
+
+bash lab/scripts/hpc_preflight.sh
+
+PY=/home/ypan/.conda/envs/bindcraft2/bin/python
+
+$PY lab/scripts/test_scfv_annotation.py
+$PY lab/scripts/test_target_tools.py
+$PY lab/scripts/test_deployment_isolation.py
+$PY lab/scripts/test_notebook_cells.py
+
+####
+
+cp -n \
+  lab/targets/CD19_ECD.pdb \
+  /project/yli4/ypan/bindcraft_cd19_dev/targets/CD19_ECD.pdb
+
+grep -c '^ATOM' \
+  /project/yli4/ypan/bindcraft_cd19_dev/targets/CD19_ECD.pdb
+
+####
+
+cat lab/configs/cd19_scfv_discovery.json
+
+### add at begining of coding block 
+
+import os
+import sys
+
+DEV = "/home/ypan/BindCraft2/BindCraft2_cd19_dev"
+ROOT = "/project/yli4/ypan/bindcraft_cd19_dev"
+
+os.environ.update({
+    "XULAB_DEPLOYMENT": "cd19_dev",
+    "XULAB_BC2_HOME": DEV,
+    "XULAB_PROJECT_ROOT": ROOT,
+    "XULAB_RESULTS": ROOT + "/results",
+    "XULAB_LOGS": ROOT + "/logs",
+    "XULAB_TARGETS": ROOT + "/targets",
+    "XULAB_CACHE": ROOT + "/cache",
+    "XULAB_TMP": ROOT + "/tmp",
+    "JAX_COMPILATION_CACHE_DIR": ROOT + "/cache/jax",
+    "TMPDIR": ROOT + "/tmp",
+    "BINDCRAFT_WEIGHTS": ROOT + "/cache/bindcraft",
+})
+
+sys.path.insert(0, DEV + "/lab/notebooks")
+
+print("Deployment:", os.environ["XULAB_DEPLOYMENT"])
+print("Source:", DEV)
+print("Results:", os.environ["XULAB_RESULTS"])
+
